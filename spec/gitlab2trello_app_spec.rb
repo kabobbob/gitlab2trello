@@ -12,6 +12,13 @@ describe 'Gitlab2TrelloApp' do
     end
   end
 
+  describe 'get /trello_auth' do
+    it "should be a valid route" do
+      get '/trello_auth'
+      expect(last_response).to be_ok
+    end
+  end
+
   describe 'post /push-events' do
     context "invalid post" do
       it "should error when no data is posted" do

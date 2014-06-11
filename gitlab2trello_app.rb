@@ -10,6 +10,10 @@ class Gitlab2TrelloApp < Sinatra::Base
   end
 
   get '/' do
+    erb :index
+  end
+
+  get '/trello_auth' do
     200
   end
 
