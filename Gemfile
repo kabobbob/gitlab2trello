@@ -7,4 +7,5 @@ group :development, :test do
   gem 'pry'
   gem 'rack-test'
   gem 'rspec', '~> 2.14.1'
+  gem 'rspec-nc'
 end
