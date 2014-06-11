@@ -1,15 +1,28 @@
 require 'spec_helper'
-require_relative '../gitlab2trello_app.rb'
 
-describe 'gitlab2trello_app' do
+describe 'Gitlab2TrelloApp' do
   def app
-    Sinatra::Application
+    @app ||= Gitlab2TrelloApp
+  end
+
+  describe 'get /' do
+    it "should be a valid route" do
+      get '/'
+      expect(last_response.status).to eq(200)
+    end
   end
 
   describe 'post /push-events' do
-    it "should allow posting to 'push-events'" do
-      post '/push-events'
-      expect(last_response).to be_ok
+    context "invalid post" do
+      it "should error when no data is posted" do
+        post '/push-events'
+        expect(last_response.status).to eq(400)
+      end
+
+      it "should error when non-json data is posted" do
+        post '/push-events', {body: "cat"}
+        expect(last_response.status).to eq(406)
+      end
     end
   end
 end

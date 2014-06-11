@@ -1,9 +1,6 @@
 ENV['RACK_ENV'] ||= 'test'
 
-require 'rspec'
-require 'rack/test'
-require 'rspec/autorun'
-require 'pry'
+require File.expand_path(File.dirname(__FILE__) + '/../config/boot.rb')
 
 RSpec.configure do |config|
   config.mock_with :rspec
