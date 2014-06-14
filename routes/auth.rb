@@ -47,6 +47,12 @@ module Sinatra
             # parse out token and secret
             matchdata = /oauth_token=([^&]+)&oauth_token_secret=(.+)/.match response.body
             user_token = OAuthCredential.new *matchdata[1..2]
+
+            #TODO update user info in db
+            #users = @db[:users]
+            #users.insert(user_id: 1, key: user_token.key, secret: user_token.secret)
+
+            status 200
           end
 
           app.get '/trello/request-token', &request_token

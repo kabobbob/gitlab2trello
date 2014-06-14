@@ -8,10 +8,12 @@ class Gitlab2TrelloApp < Sinatra::Base
 
   enable :sessions
 
+  helpers Sinatra::Gitlab2TrelloApp::Helpers
+
   register Sinatra::Gitlab2TrelloApp::Routing::Auth
   register Sinatra::Gitlab2TrelloApp::Routing::Api
 
-  attr_accessor :api_key, :api_secret
+  attr_accessor :api_key, :api_secret, :db
 
   def initialize
     # load trello api credentials
@@ -25,6 +27,14 @@ class Gitlab2TrelloApp < Sinatra::Base
     @api_secret = trello_creds['api_secret']
     raise "Missing Trello API secret" if @api_secret.nil?
 
+    @db = Sequel.sqlite
+    @db.create_table :users do
+      primary_key :id
+      Integer :user_id
+      String :key
+      String :secret
+    end
+
     # continue
     super
   end
@@ -33,4 +43,9 @@ class Gitlab2TrelloApp < Sinatra::Base
     erb :index
   end
 
+  get '/test' do
+    user = @db[:users].first
+    tc = trello_client(user[:key], user[:secret])
+    pp tc.find(:cards, 'R0di7FkV')
+  end
 end
