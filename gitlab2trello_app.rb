@@ -17,7 +17,7 @@ class Gitlab2TrelloApp < Sinatra::Base
 
   def initialize
     # load trello api credentials
-    trello_creds = YAML.load_file File.expand_path('../config/trello_creds.yml', __FILE__) rescue nil
+    trello_creds = YAML.load_file File.expand_path('../config/trello.yml', __FILE__) rescue nil
     raise "Missing Trello credentials file" if trello_creds.nil?
     raise "Invalid Trello credentials file" if trello_creds == false
 
@@ -26,6 +26,18 @@ class Gitlab2TrelloApp < Sinatra::Base
 
     @api_secret = trello_creds['api_secret']
     raise "Missing Trello API secret" if @api_secret.nil?
+
+    @callback_url = trello_creds['callback_url']
+    raise "Missing Trello callback url" if @callback_url.nil?
+
+    @app_name = trello_creds['app_name']
+    raise "Missing Trello app name" if @app_name.nil?
+
+    @expiration = trello_creds['expiration']
+    raise "Missing Trello expiration" if @expiration.nil?
+
+    @scope = trello_creds['scope']
+    raise "Missing Trello scope" if @scope.nil?
 
     @db = Sequel.sqlite
     @db.create_table :users do

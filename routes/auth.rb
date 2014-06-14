@@ -11,17 +11,16 @@ module Sinatra
           # request a token for a user from trello
           request_token = lambda do
             OAuthPolicy.consumer_credential = OAuthCredential.new @api_key, @api_secret
-            OAuthPolicy.return_url = "http://themcclellanclan.homeip.net:4567/trello/access-token"
+            OAuthPolicy.return_url = @callback_url
             OAuthPolicy.callback = Proc.new do |request_token|
               session[:request_token] = request_token
 
               # add trello params for authorization
               uri = URI.parse(request_token.authorize_url)
               q = URI.form_unencode(uri.query)
-              q.push(["name", "CQS Gitlab2Trello"])
-              #q.push(["expiration", "never"])
-              q.push(["expiration", "1day"])
-              q.push(["scope", "read,write"])
+              q.push(["name", @app_name])
+              q.push(["expiration", @expiration])
+              q.push(["scope", @scope])
               uri.query = URI.form_encode(q)
 
               # redirect
