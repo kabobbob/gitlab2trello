@@ -2,3 +2,4 @@
 .rspec
 .ruby-gemset
 .ruby-version
+config/trello_creds.yml

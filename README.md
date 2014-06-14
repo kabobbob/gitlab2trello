@@ -1,3 +1,3 @@
-=== gitlab2trello
+# Gitlab2Trello
 
-A webserver to interface with Trello from GitLab.
+A sintatra webserver to interface with Trello from GitLab.
