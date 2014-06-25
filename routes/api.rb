@@ -14,7 +14,15 @@ module Sinatra
           system_event = lambda do
             post = env['rack.input'].read
             data = JSON.parse(post) rescue nil
-            pp data
+
+            # process event
+            case data["event_name"]
+            when "user_create"
+              pp data
+              # add user to local db
+              # email user link to trello auth
+            else
+            end
             status 200
           end
 

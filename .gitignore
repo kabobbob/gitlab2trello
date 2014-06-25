@@ -2,4 +2,5 @@
 .rspec
 .ruby-gemset
 .ruby-version
-config/trello_creds.yml
+trello.yml
+database.yml

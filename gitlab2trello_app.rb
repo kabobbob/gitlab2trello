@@ -1,6 +1,7 @@
 require 'sinatra/base'
 
 require_relative 'helpers'
+require_relative 'models'
 require_relative 'routes/auth.rb'
 require_relative 'routes/api.rb'
 
@@ -13,7 +14,7 @@ class Gitlab2TrelloApp < Sinatra::Base
   register Sinatra::Gitlab2TrelloApp::Routing::Auth
   register Sinatra::Gitlab2TrelloApp::Routing::Api
 
-  attr_accessor :api_key, :api_secret, :db
+  attr_accessor :api_key, :api_secret
 
   def initialize
     # load trello api credentials
@@ -39,14 +40,6 @@ class Gitlab2TrelloApp < Sinatra::Base
     @scope = trello_creds['scope']
     raise "Missing Trello scope" if @scope.nil?
 
-    @db = Sequel.sqlite
-    @db.create_table :users do
-      primary_key :id
-      Integer :user_id
-      String :key
-      String :secret
-    end
-
     # continue
     super
   end
@@ -55,8 +48,9 @@ class Gitlab2TrelloApp < Sinatra::Base
     erb :index
   end
 
+  # tmp routes
   get '/test' do
-    user = @db[:users].first
+    user = User.first
     tc = trello_client(user[:key], user[:secret])
     pp tc.find(:cards, 'R0di7FkV')
   end
