@@ -1,10 +1,14 @@
 source 'http://rubygems.org'
 
-gem 'sinatra'
+gem 'sinatra', '~> 1.4.8'
 gem 'thin'
 
 gem 'rake'
 gem 'ruby-trello'
+
+gem 'activemodel', '~> 4.1.1'
+gem 'activesupport', '~> 4.1.1'
+gem 'rest-client', '~> 1.7.3'
 
 group :development, :test do
   gem 'pry'
